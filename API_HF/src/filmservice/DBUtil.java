@@ -74,6 +74,92 @@ import java.util.List;
 			finally {rs.close();stmt.close();con.close();}
 			
 			
+		} 
+		
+		public List<Tenant> getAllInfo() throws Exception 
+		{
+			System.out.println("Testing");
+			List<Tenant> allInfo = new ArrayList<>();
+			System.out.println("Testing2");
+			//Connection con;
+			System.out.println("Testing3");
+			Statement stmt = null;
+			System.out.println("Testing4");
+			ResultSet rs = null;
+			System.out.println("Testing5");
+			Tenant tenant = null;
+			
+			
+			try 
+			{
+			
+				
+				
+				
+				String query ="select h.elevator, h.gym, h.sauna, h.storage_room, h.construction_date,h.address,"
+						+ "h.postal_code, h.city, a.id, a.house_number, a.size, a.rooms, a.balcony, a.floor, a.bofond,"
+						+ "a.rent, a.fridge, a.freezer, a.stove, a.notes, t.id, t.apartmentNumber, t.firstName, t.lastName, "
+						+ "t.ss_number, t.mobile, t.email, t._from, t._until,t.notes from apartment as a left join tenant as t on "
+						+ "t.apartmentNumber = a.id left join house as h on h.id=a.house_number";
+
+				con = Connect.GetConnection();
+				stmt = con.createStatement();
+				
+				rs = stmt.executeQuery(query);
+
+				
+				while (rs.next()) 
+				{
+					boolean elevator = rs.getBoolean("h.elevator");
+					boolean gym = rs.getBoolean("h.gym");
+					boolean sauna = rs.getBoolean("h.sauna");
+					boolean storage_room = rs.getBoolean("h.storage_room");
+					String construction_date = rs.getString("h.construction_date");
+					String address= rs.getString("h.address");
+					String postal_code= rs.getString("h.postal_code");
+					String city= rs.getString("h.city");
+					int id = rs.getInt("a.id");
+					int house_number = rs.getInt("a.house_number");
+					double size = rs.getDouble("a.size");
+					int rooms= rs.getInt("a.rooms");
+					boolean balcony = rs.getBoolean("a.balcony");
+					int floor= rs.getInt("a.floor");
+					double bofond = rs.getDouble("a.bofond");
+					double rent = rs.getDouble("a.rent");
+					String fridge= rs.getString("a.fridge");
+					String freezer= rs.getString("a.freezer");
+					String stove= rs.getString("a.stove");
+					String a_notes= rs.getString("a.notes");
+					int id2 = rs.getInt("t.id");
+					int apartmentNumber = rs.getInt("t.apartmentNumber");
+					String firstName = rs.getString("t.firstName");
+					String lastName = rs.getString("t.lastName");
+					String ss_number = rs.getString("t.ss_number");
+					String mobile = rs.getString("t.mobile");
+					String email = rs.getString("t.email");
+					String _from = rs.getString("t._from");
+					String _until = rs.getString("t._until");
+					String notes = rs.getString("t.notes");
+					
+					
+				
+				tenant = new Tenant(elevator, gym, sauna, storage_room, construction_date,address,postal_code, city, id, 
+						house_number,size, rooms, balcony,floor, bofond, rent, fridge, freezer, stove, a_notes, id2, apartmentNumber,
+						firstName, lastName,ss_number, mobile, email,_from, _until, notes );
+				
+				allInfo.add(tenant);
+					
+					
+				}
+				
+				
+				
+				return allInfo;
+			}
+
+			finally {rs.close();stmt.close();con.close();}
+			
+			
 		}  
 
 		

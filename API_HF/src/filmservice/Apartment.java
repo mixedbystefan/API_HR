@@ -1,6 +1,6 @@
 package filmservice;
 
-public class Apartment
+public class Apartment extends House
 {
 	
 	int id;
@@ -37,12 +37,39 @@ public class Apartment
 		this.a_notes = a_notes;
 	}
 	
-	
+	public Apartment(boolean elevator, boolean gym, boolean sauna, boolean storage_room, String construction_date,
+			String address, String postal_code, String city, int id, int house_number, double size, int rooms, boolean balcony, int floor, double bofond,
+			double rent, String fridge, String freezer, String stove, String a_notes) {
+		super(elevator, gym, sauna, storage_room, construction_date, address, postal_code, city);
+		this.id = id;
+		this.house_number = house_number;
+		this.size = size;
+		this.rooms = rooms;
+		this.balcony = balcony;
+		this.floor = floor;
+		this.bofond = bofond;
+		this.rent = rent;
+		this.fridge = fridge;
+		this.freezer = freezer;
+		this.stove = stove;
+		this.a_notes = a_notes;
+	}
 	
 	public Apartment(int id, String a_notes) {
 		
 		this.id = id;
 		this.a_notes = a_notes;
+	}
+
+	public Apartment(boolean elevator, boolean gym, boolean sauna, boolean storage_room, String construction_date,
+			String address, String postal_code, String city) {
+		super(elevator, gym, sauna, storage_room, construction_date, address, postal_code, city);
+		// TODO Auto-generated constructor stub
+	}
+
+	public Apartment(String address, String postal_code, String city) {
+		super(address, postal_code, city);
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {

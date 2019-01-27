@@ -14,11 +14,13 @@ public class ApartmentService {
    @GET
    @Path("/apartments")
    @Produces(MediaType.APPLICATION_JSON)
-   public List<Apartment> getApartments() throws Exception {
+   public List<Tenant> getApartments() throws Exception {
 	   
 	 //List<Apartment> out = dBUtility.getAllApartmentsSimple();
 	 
-	 List<Apartment> out = dBUtility.getAllApartments();
+	 //List<Apartment> out = dBUtility.getAllApartments();
+	   
+	 List<Tenant> out = dBUtility.getAllInfo();
 	   return out;
  
    }
