@@ -9,7 +9,7 @@ public class Connect
 	static final String timezoneFix = "?useLegacyDatetimeCode=false&serverTimezone=Europe/Stockholm";
 	static final String password = "tlabTLAB4321";
 	static int count=0;
-		//j	
+			
 	public static Connection GetConnection() 
 	{
 	
