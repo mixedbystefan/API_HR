@@ -80,6 +80,24 @@ public Tenant(int id, String firstName, String lastName, String address, String 
 	
 }
 
+public Tenant(int apartmentNumber, String firstName, String lastName, String ss_number) {
+	super();
+	this.apartmentNumber = apartmentNumber;
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.ss_number = ss_number;
+}
+
+public Tenant(int apartmentNumber, String firstName, String lastName, String ss_number, String mobile, String email) {
+	super();
+	this.apartmentNumber = apartmentNumber;
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.ss_number = ss_number;
+	this.mobile = mobile;
+	this.email = email;
+}
+
 public int getId() {return id;}
 
 public int getApartmentNumber() {return apartmentNumber;}

@@ -14,6 +14,41 @@ import java.util.List;
 		Connection con;
 		
 		
+		 
+		 public void addTenant(Tenant tempTenant) throws SQLException 
+
+			{
+				
+				Connection conn = null;	
+				PreparedStatement pstmt= null;
+				String query ="";
+			
+				try {
+					conn = Connect.GetConnection();
+					query = "insert into Tenant (apartmentNumber, firstName, lastName, "
+							+ "ss_number,mobile, email)) "
+							+ "values(?,?,?,?,?,?)";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, tempTenant.getApartmentNumber());
+					pstmt.setString(2, tempTenant.getFirstName());
+					pstmt.setString(3, tempTenant.getLastName());
+					pstmt.setString(4, tempTenant.getSs_number());
+					pstmt.setString(5, tempTenant.getMobile());
+					pstmt.setString(6, tempTenant.getEmail());
+					pstmt.execute();
+					
+				} 
+				
+				catch (SQLException e) 
+				{	
+					e.printStackTrace();
+				}
+				
+				finally {conn.close(); pstmt.close(); conn.close();}	
+			
+			}
+		
+		
 		
 		public List<Apartment> getAllApartments() throws Exception 
 		{
