@@ -1,20 +1,29 @@
 package filmservice;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.*;
 public class MainMethod_JustToTest {
-
-	public static void main(String[] args) throws Exception {
-		DBUtil dBUtil = new DBUtil();
-		List<Apartment> list = new ArrayList<Apartment>();
+	private Client client;
+	private static String REST_SERVICE_URL = "http://localhost:8080/API_HF/rest/ApartmentService/tenant";
+	public MainMethod_JustToTest() { 
+		client = ClientBuilder.newClient();	}
+	
+	
+	public static void main(String[] args) {
+		MainMethod_JustToTest justToTest = new MainMethod_JustToTest();
+		justToTest.addTenant("Aina"); 
 		
-		
-		list = dBUtil.getAllApartments();
-		for (Apartment apartment : list) {System.out.println(apartment);};
-		
-		// denna main-metod testar bara uppkopplingen mot databasen och vad som returneras
-		// http://localhost:8080/Hyresforeningen/rest/ApartmentService/apartments
 	}
+	private void addTenant(String firstName){
+	      Form form = new Form();
+	      form.param("firstName", firstName);
+	      //form.param("title", title);
+	      //form.param("description", description);
+	      String callResult = client
+	         .target(REST_SERVICE_URL)
+	         .request(MediaType.APPLICATION_XML)
+	         .post(Entity.entity(form,
+	            MediaType.APPLICATION_FORM_URLENCODED_TYPE),
+	            String.class);
+	      System.out.println(callResult);	}}
 
-}

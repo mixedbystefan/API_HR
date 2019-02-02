@@ -13,7 +13,27 @@ import java.util.List;
 		public DBUtil() {con = Connect.GetConnection();}
 		Connection con;
 		
-		
+		public void deleteTenant(String theTenantID) throws SQLException 
+		{
+			Connection conn=null;
+			PreparedStatement statement = null;
+			
+			try {
+				
+				int tenantID = Integer.parseInt(theTenantID);
+				conn = Connect.GetConnection();
+				String sql = "delete from tenant where id =?";
+				
+				statement= conn.prepareStatement(sql);
+				statement.setInt(1, tenantID);
+				statement.execute();
+				
+				}
+			
+			finally {conn.close(); statement.close();}
+			
+			
+		}
 		 
 		 public void addTenant(Tenant tempTenant) throws SQLException 
 
@@ -25,16 +45,19 @@ import java.util.List;
 			
 				try {
 					conn = Connect.GetConnection();
-					query = "insert into Tenant (apartmentNumber, firstName, lastName, "
+					/*query = "insert into Tenant (apartmentNumber, firstName, lastName, "
 							+ "ss_number,mobile, email)) "
-							+ "values(?,?,?,?,?,?)";
+							+ "values(?,?,?,?,?,?)";*/
+					query = "insert into Tenant (apartmentNumber) "
+							+ "values(?)";
+					
 					pstmt = conn.prepareStatement(query);
 					pstmt.setInt(1, tempTenant.getApartmentNumber());
-					pstmt.setString(2, tempTenant.getFirstName());
+					/*Äpstmt.setString(2, tempTenant.getFirstName());
 					pstmt.setString(3, tempTenant.getLastName());
 					pstmt.setString(4, tempTenant.getSs_number());
 					pstmt.setString(5, tempTenant.getMobile());
-					pstmt.setString(6, tempTenant.getEmail());
+					pstmt.setString(6, tempTenant.getEmail());*/
 					pstmt.execute();
 					
 				} 

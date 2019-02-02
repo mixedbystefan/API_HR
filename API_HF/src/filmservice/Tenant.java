@@ -1,5 +1,8 @@
 package filmservice;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement
 public class Tenant extends Apartment 
 {
 int id;
@@ -96,6 +99,16 @@ public Tenant(int apartmentNumber, String firstName, String lastName, String ss_
 	this.ss_number = ss_number;
 	this.mobile = mobile;
 	this.email = email;
+}
+@XmlElement
+public void setApartmentNumber(int apartmentNumber) {
+	this.apartmentNumber = apartmentNumber;
+}
+
+public Tenant(String firstName) {
+	super();
+	this.firstName = firstName;
+	
 }
 
 public int getId() {return id;}
