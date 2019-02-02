@@ -1,4 +1,4 @@
-package filmservice;
+package apartmentservice;
 
 
 	import java.sql.*;
@@ -45,19 +45,18 @@ import java.util.List;
 			
 				try {
 					conn = Connect.GetConnection();
-					/*query = "insert into Tenant (apartmentNumber, firstName, lastName, "
-							+ "ss_number,mobile, email)) "
-							+ "values(?,?,?,?,?,?)";*/
-					query = "insert into Tenant (apartmentNumber) "
-							+ "values(?)";
+					
+					query = "insert into Tenant (apartmentNumber, firstName, lastName, "
+							+ "ss_number,mobile, email) "
+							+ "values(?,?,?,?,?,?)";
 					
 					pstmt = conn.prepareStatement(query);
 					pstmt.setInt(1, tempTenant.getApartmentNumber());
-					/*Äpstmt.setString(2, tempTenant.getFirstName());
+					pstmt.setString(2, tempTenant.getFirstName());
 					pstmt.setString(3, tempTenant.getLastName());
 					pstmt.setString(4, tempTenant.getSs_number());
 					pstmt.setString(5, tempTenant.getMobile());
-					pstmt.setString(6, tempTenant.getEmail());*/
+					pstmt.setString(6, tempTenant.getEmail());
 					pstmt.execute();
 					
 				} 

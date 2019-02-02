@@ -1,4 +1,4 @@
-package filmservice;
+package apartmentservice;
 
 import java.sql.*;
 

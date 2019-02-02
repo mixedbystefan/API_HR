@@ -1,4 +1,4 @@
-package filmservice;
+package apartmentservice;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -166,16 +166,18 @@ public class ApartmentService
    @Path("/tenant")
    @Produces(MediaType.APPLICATION_XML)
    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-   public String createTenant(@FormParam("firstName") String firstName,
-      /*@FormParam("firstName") String firstName,
-      @FormParam("lastName") String lastName,
-      @FormParam("SSNumber") String SSNumber,
-      @FormParam("mobile") String mobile,
-      @FormParam("email") String email,*/
-      @Context HttpServletResponse servletResponse) throws SQLException{
+   public String createTenant(@FormParam("apartmentnumber") String apartmentNumber,
+		   @FormParam("firstName") String firstName,
+		   @FormParam("lastName") String lastName,
+		   @FormParam("ss_number") String ss_number,
+		   @FormParam("mobile") String mobile,
+		   @FormParam("email") String email,
+   @Context HttpServletResponse servletResponse) throws SQLException{
 	  
-	   System.out.println("create körs");
-    Tenant tempTenant = new Tenant(firstName);//, firstName,lastName, SSNumber, mobile, email);
+	System.out.println("create körs");
+	int apnr = Integer.parseInt(apartmentNumber);
+    Tenant tempTenant = new Tenant(apnr, firstName, lastName, ss_number, mobile, email);
+    System.out.println(tempTenant);
     
     dBUtility.addTenant(tempTenant);
   	

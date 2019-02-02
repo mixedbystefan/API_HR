@@ -1,4 +1,4 @@
-package filmservice;
+package apartmentservice;
 
 public class House 
 {
