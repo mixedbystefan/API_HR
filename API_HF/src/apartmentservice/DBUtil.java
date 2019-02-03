@@ -230,7 +230,7 @@ import java.util.List;
 			   return out;
 		}
 		
-		public void updateTenant(Tenant tempTenant) throws Exception
+		public int updateTenant(Tenant tempTenant) throws Exception
 		{
 			
 			
@@ -266,6 +266,7 @@ import java.util.List;
 				}
 			
 			finally {conn.close(); statement.close();}
+				return 1;
 				
 		}
 

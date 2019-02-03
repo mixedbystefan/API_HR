@@ -16,7 +16,9 @@ public class MainMethod_JustToTest {
 	public static void main(String[] args) {
 		MainMethod_JustToTest justToTest = new MainMethod_JustToTest();
 		//justToTest.addTenant("1", "Adda", "Jansson", "790430-8721", "070-2345678", "Adda@me.com"); 
-		justToTest.deleteTenant("1");
+		//justToTest.deleteTenant("1");
+		justToTest.updateTenant("2", "2", "Mikael", "Yttling", "710529-6160", "888-888 88 88", "MikkeY@hotmail.com", "2007-01-01", "2008-06-07", "telefonnummer uppdaterat!" );
+		
 		
 	}
 	private void addTenant(String apartmentnumber, String firstName, String lastName, String ss_number, String mobile, String email){
@@ -45,12 +47,19 @@ public class MainMethod_JustToTest {
 		 System.out.println(callResult);
 	}
 	
-	private void updateTenant(){
+	private void updateTenant(String id, String apartmentnumber, String firstName, String lastName, String ss_number, String mobile, String email, String _from, String _until, String notes){
 	      Form form = new Form();
-	      form.param("id", "1");
-	      form.param("name", "suresh");
-	      form.param("profession", "clerk");
-
+	      form.param("id", id);
+	      form.param("apartmentnumber", apartmentnumber);
+	      form.param("firstName", firstName);
+	      form.param("lastName", lastName);
+	      form.param("ss_number", ss_number);
+	      form.param("mobile", mobile);
+	      form.param("email", email);
+	      form.param("_from", _from);
+	      form.param("_until", _until);
+	      form.param("notes", notes);
+	      System.out.println("Test case name: testUpdateUser, Result: ");
 	      String callResult = client
 	         .target(UPDATE_URL)
 	         .request(MediaType.APPLICATION_XML)

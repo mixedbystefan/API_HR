@@ -192,7 +192,8 @@ return "<result>failure</result>";
 	@DELETE
 	   @Path("/delete/{tenantid}")
 	   @Produces(MediaType.APPLICATION_JSON)
-	   public String deleteFile(@PathParam("tenantid") String TenantID) throws SQLException {
+	   public String deleteFile(@PathParam("tenantid") String TenantID) throws SQLException 
+	{
 		System.out.println("delete körs");
 		
 	      dBUtility.deleteTenant(TenantID);
@@ -202,26 +203,32 @@ return "<result>failure</result>";
 	      } else return "{'result':'failure'}";
 	   }
 
-	/*@PUT
-	@Path("/users")
+	@PUT
+	@Path("/update")
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public String updateUser(@FormParam("id") int id,
+	public String updateUser(@FormParam("id") String id,
 			@FormParam("apartmentnumber") String apartmentNumber,
 			   @FormParam("firstName") String firstName,
 			   @FormParam("lastName") String lastName,
 			   @FormParam("ss_number") String ss_number,
 			   @FormParam("mobile") String mobile,
 			   @FormParam("email") String email,
-	   @Context HttpServletResponse servletResponse) throws IOException{
-	   Tenant user = new Tenant(id, name, profession);
-	   int result = userDao.updateUser(user);
+			   @FormParam("_from") String _from,
+			   @FormParam("_until") String _until,
+			   @FormParam("notes") String notes,	  
+	   @Context HttpServletResponse servletResponse) throws Exception{
+		int apnr = Integer.parseInt(apartmentNumber);
+		int _id = Integer.parseInt(id);
+		
+	   Tenant tempTenant = new Tenant(_id, apnr, firstName, lastName, ss_number, mobile, email,_from, _until, notes);
+	   int result = dBUtility.updateTenant(tempTenant);
 	   if(result == 1){
-	      return SUCCESS_RESULT;
+	      //return SUCCESS_RESULT;
 	   }
-	   return FAILURE_RESULT;
+	   return "FAILURE_RESULT";
 	}
-*/
+
    //http://localhost:8080/API_HF/rest/ApartmentService/apartmentquery?size=40
    //http://localhost:8080/API_HF/rest/ApartmentService/create?apartmentnumber=1
 
