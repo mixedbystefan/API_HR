@@ -11,6 +11,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -72,13 +73,7 @@ public class ApartmentService
 	   List<Tenant> Result = new ArrayList<Tenant>();
 	   for (Tenant tenant : ApartmentList) 
 	   {
-		   System.out.println("inne i loopen!");
-		   System.out.println("size!" + size);
-		   System.out.println("rent!" + rent);
-		   System.out.println("rooms!" + rooms);
-		   System.out.println("rcity!" + city);
-		   
-		   // 
+
 		   if (city!=null) 
 		   {
 			   System.out.println("1");
@@ -194,18 +189,39 @@ return "<result>failure</result>";
   //http://localhost:8080/API_HF/rest/ApartmentService/apartments/apartmentnumber=1 
   
 
-@DELETE
-   @Path("/deleteID/{tenantId}")
-   @Produces(MediaType.APPLICATION_JSON)
-   public String deleteFile(@PathParam("tenantId") String TenantID) throws SQLException {
-	System.out.println("delete körs");
-      dBUtility.deleteTenant(TenantID);
-      //System.out.println(filename);
-      if(1==1){
-          return "{'result':'success'}";
-      } else return "{'result':'failure'}";
-   }
+	@DELETE
+	   @Path("/delete/{tenantid}")
+	   @Produces(MediaType.APPLICATION_JSON)
+	   public String deleteFile(@PathParam("tenantid") String TenantID) throws SQLException {
+		System.out.println("delete körs");
+		
+	      dBUtility.deleteTenant(TenantID);
+	      //System.out.println(filename);
+	      if(1==1){
+	          return "{'result':'success'}";
+	      } else return "{'result':'failure'}";
+	   }
 
+	/*@PUT
+	@Path("/users")
+	@Produces(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String updateUser(@FormParam("id") int id,
+			@FormParam("apartmentnumber") String apartmentNumber,
+			   @FormParam("firstName") String firstName,
+			   @FormParam("lastName") String lastName,
+			   @FormParam("ss_number") String ss_number,
+			   @FormParam("mobile") String mobile,
+			   @FormParam("email") String email,
+	   @Context HttpServletResponse servletResponse) throws IOException{
+	   Tenant user = new Tenant(id, name, profession);
+	   int result = userDao.updateUser(user);
+	   if(result == 1){
+	      return SUCCESS_RESULT;
+	   }
+	   return FAILURE_RESULT;
+	}
+*/
    //http://localhost:8080/API_HF/rest/ApartmentService/apartmentquery?size=40
    //http://localhost:8080/API_HF/rest/ApartmentService/create?apartmentnumber=1
 

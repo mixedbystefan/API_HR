@@ -229,5 +229,48 @@ import java.util.List;
 			  
 			   return out;
 		}
+		
+		public void updateTenant(Tenant tempTenant) throws Exception
+		{
+			
+			
+			
+				Connection conn=null;
+				PreparedStatement statement = null;
+				
+				String sql = "update tenant " 
+						+ "set apartmentNumber = ?, firstName= ?, lastName = ?, "
+						+ "ss_number = ?, mobile = ?, email = ?, _from = ?, _until = ?, notes = ? "
+						+ "where id= ?"; 
+				try {
+					conn = Connect.GetConnection();
+				
+				
+				
+			
+				statement= conn.prepareStatement(sql);
+				
+				statement.setInt(1, tempTenant.getApartmentNumber());
+				statement.setString(2, tempTenant.getFirstName());
+				statement.setString(3, tempTenant.getLastName());
+				statement.setString(4, tempTenant.getSs_number());
+				statement.setString(5, tempTenant.getMobile());
+				statement.setString(6, tempTenant.getEmail());
+				statement.setString(7, tempTenant.get_from());
+				statement.setString(8, tempTenant.get_until());
+				statement.setString(9, tempTenant.getNotes());
+				statement.setInt(10, tempTenant.id);
+				
+				statement.execute();
+				
+				}
+			
+			finally {conn.close(); statement.close();}
+				
+		}
+
+		// Tar bort en hyresgäst från databasen
+
+
 		  
 	}
