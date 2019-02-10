@@ -409,6 +409,13 @@ public void setA_notes(String a_notes) {
 
 @Override
 public String toString() {
+	return "Tenant [apartmentNumber=" + apartmentNumber + ", firstName=" + firstName + ", lastName="
+			+ lastName + ", ss_number=" + ss_number + ", mobile=" + mobile + ", email=" + email + ", _from=" + _from
+			+ ", _until=" + _until + ", notes=" + notes + "]";
+}
+
+//@Override
+/*public String toString() {
 	return "Tenant [id=" + id + ", apartmentNumber=" + apartmentNumber + ", firstName=" + firstName + ", lastName="
 			+ lastName + ", ss_number=" + ss_number + ", mobile=" + mobile + ", email=" + email + ", _from=" + _from
 			+ ", _until=" + _until + ", notes=" + notes + ", house_number=" + house_number + ", size=" + size
@@ -416,7 +423,7 @@ public String toString() {
 			+ ", fridge=" + fridge + ", freezer=" + freezer + ", stove=" + stove + ", a_notes=" + a_notes
 			+ ", elevator=" + elevator + ", gym=" + gym + ", sauna=" + sauna + ", storage_room=" + storage_room
 			+ ", construction_date=" + construction_date + ", address=" + address + ", postal_code=" + postal_code
-			+ ", city=" + city + "]";
+			+ ", city=" + city + "]";*/
 }
 
 
@@ -436,4 +443,4 @@ public String toString() {
 
 
 
-}
+

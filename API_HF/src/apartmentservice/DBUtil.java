@@ -13,7 +13,54 @@ import java.util.List;
 		public DBUtil() {con = Connect.GetConnection();}
 		Connection con;
 		
-		public void deleteTenant(String theTenantID) throws SQLException 
+		
+		// Metod som hämtar en hyresgäst
+
+		public Tenant getTenant(String theTenantID) throws Exception
+		{
+			Tenant theTenant = null;
+			Connection conn = null;
+			PreparedStatement statement = null;
+			ResultSet rs = null;
+			int tenantID;
+			
+			
+			try {
+				
+			tenantID = Integer.parseInt(theTenantID);
+			
+			conn = Connect.GetConnection();
+			String sql = "select * from Tenant where id =?";
+			statement = conn.prepareStatement(sql);
+			statement.setInt(1, tenantID);
+			rs = statement.executeQuery();
+			
+			if (rs.next()) 
+			{
+				int apartmentNumber = rs.getInt("apartmentNumber");
+				String firstName = rs.getString("firstName");
+				String lastName = rs.getString("lastName");
+				String ss_number = rs.getString("ss_number");
+				String mobile = rs.getString("mobile");
+				String email = rs.getString("email");
+				String _from = rs.getString("_from");
+				String _until = rs.getString("_until");
+				String notes = rs.getString("notes");
+				
+				theTenant = new Tenant(tenantID,apartmentNumber, firstName, lastName, ss_number,mobile, email, _from,_until, notes);
+			}
+			
+			else {throw new Exception("Kunde inte hitta Hyresgästens ID " + tenantID); }
+			System.out.println(theTenant);
+			return theTenant;
+			}
+
+			finally {conn.close(); statement.close(); rs.close();
+					
+			}
+		}
+		// Tar bort en hyregäst med "ID"
+		public int deleteTenant(String theTenantID) throws SQLException 
 		{
 			Connection conn=null;
 			PreparedStatement statement = null;
@@ -28,13 +75,21 @@ import java.util.List;
 				statement.setInt(1, tenantID);
 				statement.execute();
 				
+				return 1;
 				}
+			
+			catch (Exception e) {
+				return 0;
+			}
+			
+		
 			
 			finally {conn.close(); statement.close();}
 			
 			
 		}
 		 
+		// Lägger till en Hyresgäst
 		 public void addTenant(Tenant tempTenant) throws SQLException 
 
 			{
@@ -47,9 +102,8 @@ import java.util.List;
 					conn = Connect.GetConnection();
 					
 					query = "insert into Tenant (apartmentNumber, firstName, lastName, "
-							+ "ss_number,mobile, email) "
-							+ "values(?,?,?,?,?,?)";
-					
+							+ "ss_number,mobile, email, _from,_until, notes) "
+							+ "values(?,?,?,?,?,?,?,?,?)";
 					pstmt = conn.prepareStatement(query);
 					pstmt.setInt(1, tempTenant.getApartmentNumber());
 					pstmt.setString(2, tempTenant.getFirstName());
@@ -57,6 +111,9 @@ import java.util.List;
 					pstmt.setString(4, tempTenant.getSs_number());
 					pstmt.setString(5, tempTenant.getMobile());
 					pstmt.setString(6, tempTenant.getEmail());
+					pstmt.setString(7, tempTenant.get_from());
+					pstmt.setString(8, tempTenant.get_until());
+					pstmt.setString(9, tempTenant.getNotes());
 					pstmt.execute();
 					
 				} 
@@ -70,26 +127,18 @@ import java.util.List;
 			
 			}
 		
-		
+		// Hämtar alla lägenheter
 		
 		public List<Apartment> getAllApartments() throws Exception 
 		{
-			System.out.println("Testing");
+			
 			List<Apartment> Apartments = new ArrayList<>();
-			System.out.println("Testing2");
-			//Connection con;
-			System.out.println("Testing3");
 			Statement stmt = null;
-			System.out.println("Testing4");
 			ResultSet rs = null;
-			System.out.println("Testing5");
-			
-			
+
 			try 
 			{
 			
-				
-				
 				
 				String query = "select * from Apartment";
 
@@ -133,25 +182,21 @@ import java.util.List;
 			
 		} 
 		
+		// Hämtar en Tenant som innehåller all info från Apartment och House
+		
 		public List<Tenant> getAllInfo() throws Exception 
 		{
-			System.out.println("Testing");
+			
 			List<Tenant> allInfo = new ArrayList<>();
-			System.out.println("Testing2");
-			//Connection con;
-			System.out.println("Testing3");
 			Statement stmt = null;
-			System.out.println("Testing4");
 			ResultSet rs = null;
-			System.out.println("Testing5");
 			Tenant tenant = null;
 			
 			
 			try 
 			{
 			
-				
-				
+
 				
 				String query ="select h.elevator, h.gym, h.sauna, h.storage_room, h.construction_date,h.address,"
 						+ "h.postal_code, h.city, a.id, a.house_number, a.size, a.rooms, a.balcony, a.floor, a.bofond,"
@@ -220,15 +265,7 @@ import java.util.List;
 		}  
 
 		
-			
-		public List<Apartment> getAllApartmentsSimple() throws Exception 
-		{
-			List<Apartment> out = new ArrayList<Apartment>();
-			System.out.println("hahahaha");
-			out.add(new Apartment(10, 13, 122,4, true,2,1233,4000,"false","false", "false", "Hejsvejs"));
-			  
-			   return out;
-		}
+			// Updaterar en hyresgäst
 		
 		public int updateTenant(Tenant tempTenant) throws Exception
 		{
@@ -270,7 +307,7 @@ import java.util.List;
 				
 		}
 
-		// Tar bort en hyresgäst från databasen
+		
 
 
 		  
