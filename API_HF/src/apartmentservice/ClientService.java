@@ -1,13 +1,20 @@
 package apartmentservice;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
+
+import org.json.JSONArray;
 public class ClientService {
 	private Client client;
 	private static String ADD_URL = "http://localhost:8080/API_HF/rest/ApartmentService/add";
 	private static String DELETE_URL = "http://localhost:8080/API_HF/rest/ApartmentService/delete";
 	private static String UPDATE_URL = "http://localhost:8080/API_HF/rest/ApartmentService/update";
-	private static String GET_CLIENT_URL = "http://localhost:8080/API_HF/rest/ApartmentService/tenant/";
+	private static String GET_TENANT_URL = "http://localhost:8080/API_HF/rest/ApartmentService/tenant/";
+	private static String GET_TENANTS_URL = "http://localhost:8080/API_HF/rest/ApartmentService/tenants";
+	
 	
 	
 	public ClientService() { 
@@ -19,12 +26,30 @@ public class ClientService {
 		
 	}
 	
+	public List<Tenant> getAllTenants() {
+		System.out.println("Detta är från clientservice");
+		ClientService clientService = new ClientService();
+		GenericType<String> string = new GenericType<String>() {};
+		String s = clientService.client
+		         .target(GET_TENANTS_URL)
+		         .request(MediaType.APPLICATION_JSON)
+		         .get(string); // hämta JSON-representation
+		System.out.println("Detta är från clientservice" + s);
+		ArrayList<Tenant> list = (ArrayList<Tenant>) JSONUtility.getAllTenants(s);
+		return list;
+		
+		
+		
+	}
+	
+	
+	
 	public Tenant getTenant(String tenantid) {
 		System.out.println("Detta är från clientservice");
 		ClientService clientService = new ClientService();
 		GenericType<String> string = new GenericType<String>() {};
 		String s = clientService.client
-		         .target(GET_CLIENT_URL + tenantid)
+		         .target(GET_TENANT_URL + tenantid)
 		         .request(MediaType.APPLICATION_JSON)
 		         .get(string); // hämta JSON-representation
 		System.out.println("Detta är från clientservice" + s);

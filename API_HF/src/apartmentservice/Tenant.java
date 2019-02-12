@@ -58,6 +58,9 @@ public Tenant(int id, int apartmentNumber, String firstName, String lastName, St
 	this.notes = notes;
 }
 
+
+
+
 public Tenant(int apartmentNumber, String firstName, String lastName, String ss_number, String mobile, String email,
 		String _from, String _until, String notes) {
 	
@@ -83,6 +86,23 @@ public Tenant(int id, String firstName, String lastName, String address, String 
 	
 }
 
+
+
+public Tenant(int id, int apartmentNumber, String firstName, String lastName, String ss_number, String mobile, String email,
+		String _from, String _until, String notes, String address, String postal_code, String city) 
+{
+	super(address, postal_code, city);
+	this.id = id;
+	this.apartmentNumber = apartmentNumber;
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.ss_number = ss_number;
+	this.mobile = mobile;
+	this.email = email;
+	this._from = _from;
+	this._until = _until;
+	this.notes = notes;
+}
 public Tenant(int apartmentNumber, String firstName, String lastName, String ss_number) {
 	super();
 	this.apartmentNumber = apartmentNumber;
@@ -409,9 +429,8 @@ public void setA_notes(String a_notes) {
 
 @Override
 public String toString() {
-	return "Tenant [apartmentNumber=" + apartmentNumber + ", firstName=" + firstName + ", lastName="
-			+ lastName + ", ss_number=" + ss_number + ", mobile=" + mobile + ", email=" + email + ", _from=" + _from
-			+ ", _until=" + _until + ", notes=" + notes + "]";
+	return firstName + " " + lastName + " (ID:" + id + ")" +  "\n" + "\n" + "Adress: " + address  + "\n" + "Postnummer: " + postal_code + "\n" + "Stad: " + city + "\n"+ "\n"+  "Personnummer: " + ss_number +  "\n" + "Lägenhetsnummer: " + apartmentNumber
+			+  "\n" + "Mobilnummer: " + mobile + "\n" + "Email: " + email + "\n" + "Inflyttad: " + _from+ "\n" + "Utflyttad: " + _until + "\n" +  "\n" + "Anteckningar" + notes ;
 }
 
 //@Override

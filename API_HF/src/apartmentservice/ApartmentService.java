@@ -39,6 +39,17 @@ public class ApartmentService
  
    }
    
+   @GET
+   @Path("/tenants")
+   @Produces(MediaType.APPLICATION_JSON)
+   public List<Tenant> getTenants() throws Exception 
+   {
+	 // Hämtar alla lägenheter från databasen    
+	 List<Tenant> out = dBUtility.getAllInfo();
+	 return out;
+ 
+   }
+   
    // Metoden tar in en ID på en lägenhet, omvandlar det till en int, hämtar alla lägenheter till en lista
    // Går igenom listan och när lägenhetsnumret överenstämmer med ID'et som tas in i metoden så returneras detta objekt,
    

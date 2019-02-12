@@ -5,7 +5,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+
+import org.json.JSONException;
 
 import com.sun.javafx.image.IntPixelGetter;
 import com.sun.jmx.snmp.SnmpUnknownSubSystemException;
@@ -14,10 +17,13 @@ import jdk.internal.dynalink.beans.StaticClass;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 
@@ -47,6 +53,7 @@ public class GUI_Client extends JFrame {
 	ClientService clientService = new ClientService();
 	private JButton btnHmtaHyresgstid;
 	private JButton btnTaBort;
+	private JButton btnRensa;
 	
 
 	/**
@@ -70,12 +77,14 @@ public class GUI_Client extends JFrame {
 	 */
 	public GUI_Client() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 800);
+		setBounds(100, 100, 650, 800);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		
 		
 		JLabel lblLggTillHyresgst = new JLabel("Lägg till Hyresgäst");
 		lblLggTillHyresgst.setFont(new Font("Courier New", Font.BOLD, 16));
@@ -183,8 +192,17 @@ public class GUI_Client extends JFrame {
 		contentPane.add(lblAnteckningar);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(230, 144, 348, 456);
+		textArea.setBounds(200, 144, 348, 574);
 		contentPane.add(textArea);
+		
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(200, 144, 348, 574);
+		 
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		
+		//ConsoleWindow.setBounds(162, 162, 800, 283);
+		contentPane.add(scrollPane);
 		
 		JButton btnSpara = new JButton("Spara");
 		btnSpara.addActionListener(new ActionListener() {
@@ -262,7 +280,6 @@ public class GUI_Client extends JFrame {
 				String _until = textF_outDate.getText();
 				String _from= textF_in_date.getText();
 				String notes = textF_notes.getText();
-				
 				clientService.updateTenant(id, apartmentNumber, firstName, lastName, ss_number, mobile, email, _from, _until, notes);
 				
 			}
@@ -288,9 +305,39 @@ public class GUI_Client extends JFrame {
 		
 		
 		JButton btnSkrivUtHyresgster = new JButton("Skriv ut hyresgäster");
-		btnSkrivUtHyresgster.setBounds(320, 605, 200, 29);
+		btnSkrivUtHyresgster.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				ArrayList<Tenant> result = (ArrayList<Tenant>) clientService.getAllTenants();
+				System.out.println("Skrivs ut i GUI" + result);
+				if (result.size()<1) {textArea.setText("Sökningen gav inga resultat");}
+				
+				else {
+				for (Tenant ten : result) 
+				{
+					textArea.append(ten + "\n" + "\n" +"______________________________________________________________________________" + "\n"+ "\n");
+				}
+				
+				textArea.setCaretPosition(0);
+				
+				}
+			}});
+		
+		btnSkrivUtHyresgster.setBounds(321, 730, 200, 29);
 		contentPane.add(btnSkrivUtHyresgster);
-	}
+		
+		btnRensa = new JButton("Rensa");
+		btnRensa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearInput();
+				textF_ID.setText("");
+			}
+		});
+		btnRensa.setBounds(47, 645, 117, 29);
+		contentPane.add(btnRensa);
+		
+		}
 	
 	private static void clearInput() {
 		TextF_ApNum.setText("");

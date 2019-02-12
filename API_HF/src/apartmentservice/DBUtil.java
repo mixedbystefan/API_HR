@@ -45,6 +45,7 @@ import java.util.List;
 				String email = rs.getString("email");
 				String _from = rs.getString("_from");
 				String _until = rs.getString("_until");
+				if (_until==null) {_until = "";}
 				String notes = rs.getString("notes");
 				
 				theTenant = new Tenant(tenantID,apartmentNumber, firstName, lastName, ss_number,mobile, email, _from,_until, notes);
