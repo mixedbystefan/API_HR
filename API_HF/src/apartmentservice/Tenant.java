@@ -430,7 +430,12 @@ public void setA_notes(String a_notes) {
 @Override
 public String toString() {
 	return firstName + " " + lastName + " (ID:" + id + ")" +  "\n" + "\n" + "Adress: " + address  + "\n" + "Postnummer: " + postal_code + "\n" + "Stad: " + city + "\n"+ "\n"+  "Personnummer: " + ss_number +  "\n" + "Lägenhetsnummer: " + apartmentNumber
-			+  "\n" + "Mobilnummer: " + mobile + "\n" + "Email: " + email + "\n" + "Inflyttad: " + _from+ "\n" + "Utflyttad: " + _until + "\n" +  "\n" + "Anteckningar" + notes ;
+			+  "\n" + "Mobilnummer: " + mobile + "\n" + "Email: " + email + "\n" + "Inflyttad: " + _from+ "\n" + "Utflyttad: " + _until + "\n" +  "\n" + "Anteckningar: " + notes ;
+}
+
+public String detailedInfo() {
+	return firstName + " " + lastName + " (ID:" + id + ")" +  "\n" + "\n" + "Adress: " + address  + "\n" + "Postnummer: " + postal_code + "\n" + "Stad: " + city + "\n"+ "\n"+  "Personnummer: " + ss_number +  "\n" + "Lägenhetsnummer: " + apartmentNumber
+			+  "\n" + "Mobilnummer: " + mobile + "\n" + "Email: " + email + "\n" + "Inflyttad: " + _from+ "\n" + "Utflyttad: " + _until + "\n" +  "\n" + "Anteckningar: " + notes ;
 }
 
 //@Override

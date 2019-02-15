@@ -26,6 +26,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUI_Client extends JFrame {
 
@@ -40,7 +42,6 @@ public class GUI_Client extends JFrame {
 	private static JTextField textF_in_date;
 	private static JTextField textF_outDate;
 	private static JTextField textF_notes;
-	private JLabel lblId;
 	private JLabel lblLgenhetsnummer;
 	private JLabel lblFrnamn;
 	private JLabel lblEfternamn;
@@ -54,6 +55,7 @@ public class GUI_Client extends JFrame {
 	private JButton btnHmtaHyresgstid;
 	private JButton btnTaBort;
 	private JButton btnRensa;
+	private JLabel lblId;
 	
 
 	/**
@@ -77,126 +79,114 @@ public class GUI_Client extends JFrame {
 	 */
 	public GUI_Client() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 800);
+		setBounds(100, 100, 700, 900);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		
-		JLabel lblLggTillHyresgst = new JLabel("Lägg till Hyresgäst");
-		lblLggTillHyresgst.setFont(new Font("Courier New", Font.BOLD, 16));
-		lblLggTillHyresgst.setBounds(251, 46, 200, 16);
-		contentPane.add(lblLggTillHyresgst);
-		
 		textF_ID = new JTextField();
-		textF_ID.setBounds(47, 100, 37, 26);
+		textF_ID.setBounds(46, 121, 37, 26);
 		contentPane.add(textF_ID);
 		textF_ID.setColumns(10);
 		
 		TextF_ApNum = new JTextField();
-		TextF_ApNum.setBounds(47, 150, 130, 26);
+		TextF_ApNum.setBounds(46, 247, 153, 26);
 		contentPane.add(TextF_ApNum);
 		TextF_ApNum.setColumns(10);
 		
 		TextF_FirstName = new JTextField();
-		TextF_FirstName.setBounds(47, 200, 130, 26);
+		TextF_FirstName.setBounds(46, 297, 153, 26);
 		contentPane.add(TextF_FirstName);
 		TextF_FirstName.setColumns(10);
 		
 		TextF_LastName = new JTextField();
-		TextF_LastName.setBounds(47, 250, 130, 26);
+		TextF_LastName.setBounds(46, 347, 153, 26);
 		contentPane.add(TextF_LastName);
 		TextF_LastName.setColumns(10);
 		
 		textF_SSnum = new JTextField();
-		textF_SSnum.setBounds(47, 300, 130, 26);
+		textF_SSnum.setBounds(46, 397, 153, 26);
 		contentPane.add(textF_SSnum);
 		textF_SSnum.setColumns(10);
 		
 		textF_mobNum = new JTextField();
-		textF_mobNum.setBounds(47, 350, 130, 26);
+		textF_mobNum.setBounds(46, 447, 153, 26);
 		contentPane.add(textF_mobNum);
 		textF_mobNum.setColumns(10);
 		
 		textF_email = new JTextField();
-		textF_email.setBounds(47, 400, 130, 26);
+		textF_email.setBounds(46, 497, 153, 26);
 		contentPane.add(textF_email);
 		textF_email.setColumns(10);
 		
 		textF_in_date = new JTextField();
-		textF_in_date.setBounds(47, 450, 130, 26);
+		textF_in_date.setBounds(46, 547, 153, 26);
 		contentPane.add(textF_in_date);
 		textF_in_date.setColumns(10);
 		
 		textF_outDate = new JTextField();
-		textF_outDate.setBounds(47, 500, 130, 26);
+		textF_outDate.setBounds(46, 597, 153, 26);
 		contentPane.add(textF_outDate);
 		textF_outDate.setColumns(10);
 		
 		textF_notes = new JTextField();
-		textF_notes.setBounds(47, 550, 130, 26);
+		textF_notes.setBounds(46, 647, 153, 26);
 		contentPane.add(textF_notes);
 		textF_notes.setColumns(10);
 		
-		lblId = new JLabel("ID");
-		lblId.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblId.setBounds(47, 82, 61, 16);
-		contentPane.add(lblId);
-		
 		lblLgenhetsnummer = new JLabel("Lägenhetsnummer");
-		lblLgenhetsnummer.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblLgenhetsnummer.setBounds(47, 132, 127, 16);
+		lblLgenhetsnummer.setFont(new Font("Courier New", Font.BOLD, 15));
+		lblLgenhetsnummer.setBounds(46, 229, 153, 16);
 		contentPane.add(lblLgenhetsnummer);
 		
 		lblFrnamn = new JLabel("Förnamn");
-		lblFrnamn.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblFrnamn.setBounds(47, 182, 64, 16);
+		lblFrnamn.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblFrnamn.setBounds(46, 279, 64, 16);
 		contentPane.add(lblFrnamn);
 		
 		lblEfternamn = new JLabel("Efternamn");
-		lblEfternamn.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblEfternamn.setBounds(47, 232, 74, 16);
+		lblEfternamn.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblEfternamn.setBounds(46, 329, 74, 16);
 		contentPane.add(lblEfternamn);
 		
 		lblNewLabel = new JLabel("Personnummer");
-		lblNewLabel.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblNewLabel.setBounds(47, 282, 103, 16);
+		lblNewLabel.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblNewLabel.setBounds(46, 379, 103, 16);
 		contentPane.add(lblNewLabel);
 		
 		lblMobilnummer = new JLabel("Mobilnummer");
-		lblMobilnummer.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblMobilnummer.setBounds(47, 332, 100, 16);
+		lblMobilnummer.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblMobilnummer.setBounds(46, 429, 100, 16);
 		contentPane.add(lblMobilnummer);
 		
 		lblNewLabel_1 = new JLabel("Email");
-		lblNewLabel_1.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(47, 382, 61, 16);
+		lblNewLabel_1.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblNewLabel_1.setBounds(46, 479, 61, 16);
 		contentPane.add(lblNewLabel_1);
 		
 		lblInflyttnigsdatum = new JLabel("Inflyttnigsdatum");
-		lblInflyttnigsdatum.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblInflyttnigsdatum.setBounds(47, 432, 130, 16);
+		lblInflyttnigsdatum.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblInflyttnigsdatum.setBounds(46, 529, 130, 16);
 		contentPane.add(lblInflyttnigsdatum);
 		
 		lblUtflyttningsdatum = new JLabel("Utflyttningsdatum");
-		lblUtflyttningsdatum.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblUtflyttningsdatum.setBounds(47, 482, 153, 16);
+		lblUtflyttningsdatum.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblUtflyttningsdatum.setBounds(46, 579, 153, 16);
 		contentPane.add(lblUtflyttningsdatum);
 		
 		lblAnteckningar = new JLabel("Anteckningar");
-		lblAnteckningar.setFont(new Font("Courier New", Font.PLAIN, 13));
-		lblAnteckningar.setBounds(47, 532, 100, 16);
+		lblAnteckningar.setFont(new Font("Courier New", Font.BOLD, 13));
+		lblAnteckningar.setBounds(46, 629, 100, 16);
 		contentPane.add(lblAnteckningar);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(200, 144, 348, 574);
+		textArea.setBounds(17, 34, 325, 556);
 		contentPane.add(textArea);
 		
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setBounds(200, 144, 348, 574);
+		scrollPane.setBounds(215, 203, 370, 560);
 		 
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
@@ -208,7 +198,7 @@ public class GUI_Client extends JFrame {
 		btnSpara.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//String id = textF_ID.getText();
+				if (textF_ID.getText()!=""){textArea.setText("ID ställs automatiskt, lämna rutan tom!");}
 				String apartmentNumber = TextF_ApNum.getText();
 				String firstName = TextF_FirstName.getText();
 				String lastName = TextF_LastName.getText();
@@ -225,10 +215,23 @@ public class GUI_Client extends JFrame {
 				
 			}
 		});
-		btnSpara.setBounds(47, 605, 117, 29);
+		
+		lblId = new JLabel("ID");
+		lblId.setForeground(Color.WHITE);
+		lblId.setBounds(95, 126, 104, 16);
+		contentPane.add(lblId);
+		
+		btnSpara.setBounds(47, 700, 117, 29);
 		contentPane.add(btnSpara);
 		
-		btnHmtaHyresgstid = new JButton("Hämta Hyresgäst (ID)");
+		btnHmtaHyresgstid = new JButton("Hämta med ID");
+		btnHmtaHyresgstid.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		
+		btnHmtaHyresgstid.setOpaque(true);
+		btnHmtaHyresgstid.setContentAreaFilled(false);
+		btnHmtaHyresgstid.setBorderPainted(false);
+		btnHmtaHyresgstid.setForeground(Color.LIGHT_GRAY);
+		
 		btnHmtaHyresgstid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("I GUIKLASSEN");
@@ -247,6 +250,25 @@ public class GUI_Client extends JFrame {
 					textF_in_date.setText(tempTenant.get_from());
 					textF_outDate.setText(tempTenant.get_until());
 					textF_notes.setText(tempTenant.getNotes());
+					
+					int _id = Integer.parseInt(ID);
+					ArrayList<Tenant> result = (ArrayList<Tenant>) clientService.getAllTenants();
+					System.out.println("Skrivs ut i GUI" + result);
+					if (result.size()<1) {textArea.setText("Sökningen gav inga resultat");}
+					
+					else {
+					for (Tenant ten : result) 
+					{
+						if (_id == ten.id) {textArea.append(ten + "\n" );
+					}}
+					
+					textArea.setCaretPosition(0);
+					
+					}
+					
+					//textArea.append(tempTenant.detailedInfo());
+					
+					
 				} catch (Exception e1) {
 					textArea.setText("Det går inte att hitta en hyresgäst med ID " + ID);
 					clearInput();
@@ -263,10 +285,35 @@ public class GUI_Client extends JFrame {
 				
 			}
 		});
-		btnHmtaHyresgstid.setBounds(189, 100, 167, 29);
+		btnHmtaHyresgstid.setBounds(204, 121, 146, 26);
 		contentPane.add(btnHmtaHyresgstid);
 		
-		JButton btnUppdatera = new JButton("Uppdatera");
+		JButton btnUppdatera = new JButton("Spara");
+		btnUppdatera.setForeground(Color.LIGHT_GRAY);
+		btnUppdatera.setFont(new Font("Lucida Grande", Font.PLAIN, 14)); 
+		
+		btnUppdatera.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	btnUppdatera.setForeground(Color.WHITE);
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	btnUppdatera.setForeground(Color.LIGHT_GRAY);
+		    }
+		});
+		
+		
+		
+		btnHmtaHyresgstid.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	btnHmtaHyresgstid.setForeground(Color.WHITE);
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	btnHmtaHyresgstid.setForeground(Color.LIGHT_GRAY);
+		    }
+		});
+		
 		btnUppdatera.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -284,10 +331,15 @@ public class GUI_Client extends JFrame {
 				
 			}
 		});
-		btnUppdatera.setBounds(358, 100, 117, 29);
+		btnUppdatera.setBounds(363, 121, 117, 26);
+		btnUppdatera.setOpaque(false);
+		btnUppdatera.setContentAreaFilled(false);
+		btnUppdatera.setBorderPainted(false);
 		contentPane.add(btnUppdatera);
 		
-		btnTaBort = new JButton("Ta bort");
+		btnTaBort = new JButton("Ta Bort");
+		btnTaBort.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		btnTaBort.setForeground(Color.LIGHT_GRAY);
 		btnTaBort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -299,16 +351,28 @@ public class GUI_Client extends JFrame {
 					
 			}
 		});
-		btnTaBort.setBounds(477, 100, 117, 29);
+		btnTaBort.setBounds(492, 121, 111, 26);
+		btnTaBort.setOpaque(false);
+		btnTaBort.setContentAreaFilled(false);
+		btnTaBort.setBorderPainted(false);
 		contentPane.add(btnTaBort);
 		
-		
+		btnTaBort.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	btnTaBort.setForeground(Color.WHITE);
+		    }
+
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	btnTaBort.setForeground(Color.LIGHT_GRAY);
+		    }
+		});
 		
 		JButton btnSkrivUtHyresgster = new JButton("Skriv ut hyresgäster");
 		btnSkrivUtHyresgster.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
+				textArea.setText("");
 				ArrayList<Tenant> result = (ArrayList<Tenant>) clientService.getAllTenants();
 				System.out.println("Skrivs ut i GUI" + result);
 				if (result.size()<1) {textArea.setText("Sökningen gav inga resultat");}
@@ -324,7 +388,7 @@ public class GUI_Client extends JFrame {
 				}
 			}});
 		
-		btnSkrivUtHyresgster.setBounds(321, 730, 200, 29);
+		btnSkrivUtHyresgster.setBounds(302, 800, 200, 29);
 		contentPane.add(btnSkrivUtHyresgster);
 		
 		btnRensa = new JButton("Rensa");
@@ -334,8 +398,17 @@ public class GUI_Client extends JFrame {
 				textF_ID.setText("");
 			}
 		});
-		btnRensa.setBounds(47, 645, 117, 29);
+		btnRensa.setBounds(47, 740, 117, 29);
 		contentPane.add(btnRensa);
+		
+		JLabel BackgroundImage = new JLabel("New label");
+		BackgroundImage.setIcon(new ImageIcon("/Users/mixedbystefan/Desktop/BakgrundAPI_NY4.jpg"));
+		BackgroundImage.setBounds(-25, 0, 725, 852);
+		contentPane.add(BackgroundImage);
+		
+		
+		
+		
 		
 		}
 	
