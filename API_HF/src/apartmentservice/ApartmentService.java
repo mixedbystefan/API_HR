@@ -19,6 +19,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import sun.nio.cs.HistoricallyNamedCharset;
+
 @Path("/ApartmentService")
 public class ApartmentService 
 {
@@ -155,9 +157,9 @@ public class ApartmentService
 		   @FormParam("ss_number") String ss_number,
 		   @FormParam("mobile") String mobile,
 		   @FormParam("email") String email,
-		   @FormParam("email") String _from,
-		   @FormParam("email") String _until,
-		   @FormParam("email") String notes,
+		   @FormParam("_from") String _from,
+		   @FormParam("_until") String _until,
+		   @FormParam("notes") String notes,
    @Context HttpServletResponse servletResponse) throws SQLException{
 	  
 	  
@@ -188,7 +190,7 @@ public class ApartmentService
 	      int result = dBUtility.deleteTenant(TenantID);
 	      
 	      if(result==1){
-	          return SUCCESS_RESULT;
+	          return "Hyresgäst med ID " + TenantID + " har raderats!";
 	      } else return FAILURE_RESULT;
 	   }
 	

@@ -36,6 +36,7 @@ public class ClientService {
 		         .get(string); // hämta JSON-representation
 		System.out.println("Detta är från clientservice" + s);
 		ArrayList<Tenant> list = (ArrayList<Tenant>) JSONUtility.getAllTenants(s);
+		System.out.println("Detta är från clientservice på position 0" + list);
 		return list;
 		
 		
