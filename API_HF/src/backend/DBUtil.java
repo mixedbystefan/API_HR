@@ -5,6 +5,8 @@ package backend;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 
 
 	public class DBUtil 
@@ -52,7 +54,7 @@ import java.util.List;
 			}
 			
 			else {throw new Exception("Kunde inte hitta Hyresgästens ID " + tenantID); }
-			System.out.println(theTenant);
+			
 			return theTenant;
 			}
 
@@ -268,10 +270,8 @@ import java.util.List;
 		
 			// Updaterar en hyresgäst
 		
-		public int updateTenant(Tenant tempTenant) throws Exception
+		public String updateTenant(Tenant tempTenant) throws Exception
 		{
-			
-			
 			
 				Connection conn=null;
 				PreparedStatement statement = null;
@@ -280,39 +280,41 @@ import java.util.List;
 						+ "set apartmentNumber = ?, firstName= ?, lastName = ?, "
 						+ "ss_number = ?, mobile = ?, email = ?, _from = ?, _until = ?, notes = ? "
 						+ "where id= ?"; 
-				try {
-					conn = Connect.GetConnection();
 				
-				
+					try {
+						conn = Connect.GetConnection();
+						statement= conn.prepareStatement(sql);
+						statement.setInt(1, tempTenant.getApartmentNumber());
+						statement.setString(2, tempTenant.getFirstName());
+						statement.setString(3, tempTenant.getLastName());
+						statement.setString(4, tempTenant.getSs_number());
+						statement.setString(5, tempTenant.getMobile());
+						statement.setString(6, tempTenant.getEmail());
+						statement.setString(7, tempTenant.get_from());
+						statement.setString(8, tempTenant.get_until());
+						statement.setString(9, tempTenant.getNotes());
+						statement.setInt(10, tempTenant.id);
+						statement.execute();
+					} 
+					
+					catch (Exception e) 
+					{
+						return "Hyresgäst kunde inte uppdateras";
+					}
 				
 			
-				statement= conn.prepareStatement(sql);
-				
-				statement.setInt(1, tempTenant.getApartmentNumber());
-				statement.setString(2, tempTenant.getFirstName());
-				statement.setString(3, tempTenant.getLastName());
-				statement.setString(4, tempTenant.getSs_number());
-				statement.setString(5, tempTenant.getMobile());
-				statement.setString(6, tempTenant.getEmail());
-				statement.setString(7, tempTenant.get_from());
-				statement.setString(8, tempTenant.get_until());
-				statement.setString(9, tempTenant.getNotes());
-				statement.setInt(10, tempTenant.id);
-				
-				statement.execute();
-				
-				}
-			
-			finally {conn.close(); statement.close();}
-				return 1;
+					finally {conn.close(); statement.close();}
+					return "Hyresgäst Uppdaterad";
 				
 		}
 		
 		public boolean validateAdmin(String _username, String _password)
 		{
-				
+				if (!_username.equalsIgnoreCase("APIKEY"))
+				{
 				_password = PassCrypt.hashPassword(_password);
 				_username = PassCrypt.hashPassword(_username);
+				}
 				
 			
 			boolean status=false;  
@@ -339,7 +341,33 @@ import java.util.List;
 			return status;  
 			}
 
-		
+		public boolean validateAdmin(String _password)
+		{
+				
+				
+			
+			boolean status=false;  
+			
+			Connection conn = null; 
+			String query = "select * from _admin where _password =?";
+			
+			
+			try {
+				conn = Connect.GetConnection();
+				PreparedStatement pst = conn.prepareStatement(query);
+				pst.setString(1, _password);
+				ResultSet rs = pst.executeQuery();
+
+				status = rs.next();
+				
+				
+
+				}
+			
+			catch(Exception e){System.out.println(e);}  
+			
+			return status;  
+			}
 
 
 		  

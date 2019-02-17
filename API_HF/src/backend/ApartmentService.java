@@ -46,7 +46,7 @@ public class ApartmentService
    @Produces(MediaType.APPLICATION_JSON)
    public List<Tenant> getTenants() throws Exception 
    {
-	 // Hämtar alla lägenheter från databasen    
+	 // Hämtar alla hyresgäster från databasen  
 	 List<Tenant> out = dBUtility.getAllInfo();
 	 return out;
  
@@ -70,9 +70,8 @@ public class ApartmentService
       }
       return null; 
    }
-   // Metoden tar in city=X, maxrent=X osv från URL'en och dessa sparas i nya variabler, alla lägenheter hämtas från databasen 
-   // En ny lista med Resultat (en lista av typen hyresgästobjekt) skapas, Listan med alla lägenheter loopas igenom och ifsatserna sorterar
-   // ut de svar som överestämmer med villkoren. Slutligen returnerar metoden en lista med de svar som översenstämmer med användarens önskemål
+   
+   // Hämtar hyresgäst utifrån ID
    
    @GET
    @Path("/tenant/{tenant_id}")
@@ -81,9 +80,16 @@ public class ApartmentService
    {
 	 
       Tenant theTenant = dBUtility.getTenant(tenant_id);
-      System.out.println("I apartmentservice" + theTenant);
       return theTenant; 
    }
+   
+   // Används inte i Appen "HyresgästAppen" då den inte bygger på lägenheter
+   // Används däremot i uppgift 2 i labb3
+   // Hämtar lägenhet(er) efter några specifika krav
+   
+   // Metoden tar in city=X, maxrent=X osv från URL'en och dessa sparas i nya variabler, alla lägenheter hämtas från databasen 
+   // En ny lista med Resultat (en lista av typen hyresgästobjekt) skapas, Listan med alla lägenheter loopas igenom och ifsatserna sorterar
+   // ut de svar som överestämmer med villkoren. Slutligen returnerar metoden en lista med de svar som översenstämmer med användarens önskemål
    
    @GET
    @Path("/apartmentquery")
@@ -161,21 +167,21 @@ public class ApartmentService
 		   @FormParam("_until") String _until,
 		   @FormParam("notes") String notes,
    @Context HttpServletResponse servletResponse) throws SQLException{
-	  
-	  
-	int apnr = Integer.parseInt(apartmentNumber);
-	Tenant tempTenant = new Tenant(apnr, firstName, lastName, ss_number, mobile, email,_from, _until, notes);
-    dBUtility.addTenant(tempTenant);
-  	
+
+      try 
+      {
+    	  int apnr = Integer.parseInt(apartmentNumber);
+    	  Tenant tempTenant = new Tenant(apnr, firstName, lastName, ss_number, mobile, email,_from, _until, notes);
+    	  dBUtility.addTenant(tempTenant);
+      } 
       
-      try {
-	    
-    	} catch (Exception e) {
-    		System.out.println("Lyckades inte skriva till databas.");
-    		return "<result>failure</result>";
+      catch (Exception e) {
+    		return "Det gick inte att spara ny hyresgäst";
 }
-      return "<result>success</result>";
+      return "Ny hyresgäst sparad";
    }
+   
+   // Validerar användarnamn och lösenord
    
    @POST
    @Path("/validate")
@@ -186,15 +192,24 @@ public class ApartmentService
 		   @FormParam("password") String password,
    @Context HttpServletResponse servletResponse) throws SQLException
    {
-	   
-	   
+	
 	   boolean result = dBUtility.validateAdmin(userName, password);
-	   System.out.println("nurrååååååå" + result);
 	   if (result) {return "true";}
-	   else return "false";
-	   
-	   
-		  
+	   else return "false";	  
+   }
+   
+   @POST
+   @Path("/validateAPI")
+   @Produces(MediaType.APPLICATION_XML)
+   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+   public String ValidateAdmin(
+		   @FormParam("password") String password,
+   @Context HttpServletResponse servletResponse) throws SQLException
+   {
+	
+	   boolean result = dBUtility.validateAdmin(password);
+	   if (result) {return "true";}
+	   else return "false";	  
    }
 
   
@@ -214,7 +229,7 @@ public class ApartmentService
 	      } else return FAILURE_RESULT;
 	   }
 	
-	// I princip Som POST men anropar annan metod.
+	// I princip Som POST men anropar annan metod för att uppdatera hyresgäst.
 
 	@PUT
 	@Path("/update")
@@ -235,11 +250,8 @@ public class ApartmentService
 		int _id = Integer.parseInt(id);
 		
 	   Tenant tempTenant = new Tenant(_id, apnr, firstName, lastName, ss_number, mobile, email,_from, _until, notes);
-	   int result = dBUtility.updateTenant(tempTenant);
-	   if(result == 1){
-	     
-	   }
-	   return "FAILURE_RESULT";
+	   String result = dBUtility.updateTenant(tempTenant);
+	   return result;
 	}
 
    

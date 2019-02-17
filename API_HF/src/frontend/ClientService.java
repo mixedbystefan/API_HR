@@ -32,16 +32,13 @@ public class ClientService {
 	}
 	
 	public List<Tenant> getAllTenants() {
-		System.out.println("Detta är från clientservice");
 		ClientService clientService = new ClientService();
 		GenericType<String> string = new GenericType<String>() {};
 		String s = clientService.client
 		         .target(GET_TENANTS_URL)
 		         .request(MediaType.APPLICATION_JSON)
 		         .get(string); // hämta JSON-representation
-		System.out.println("Detta är från clientservice" + s);
 		ArrayList<Tenant> list = (ArrayList<Tenant>) JSONUtility.getAllTenants(s);
-		System.out.println("Detta är från clientservice på position 0" + list);
 		return list;
 		
 		
@@ -51,20 +48,20 @@ public class ClientService {
 	
 	
 	public Tenant getTenant(String tenantid) {
-		System.out.println("Detta är från clientservice");
+		
 		ClientService clientService = new ClientService();
 		GenericType<String> string = new GenericType<String>() {};
 		String s = clientService.client
 		         .target(GET_TENANT_URL + tenantid)
 		         .request(MediaType.APPLICATION_JSON)
 		         .get(string); // hämta JSON-representation
-		System.out.println("Detta är från clientservice" + s);
 		return JSONUtility.getTenantById(s);
 		
 		
 		
 	}
-	void addTenant(String apartmentnumber, String firstName, String lastName, String ss_number, String mobile, String email, String _from,String _until, String notes){
+	String addTenant(String apartmentnumber, String firstName, String lastName, String ss_number, 
+			String mobile, String email, String _from,String _until, String notes){
 	      Form form = new Form();
 	      
 	      form.param("apartmentnumber", apartmentnumber);
@@ -82,7 +79,8 @@ public class ClientService {
 	         .post(Entity.entity(form,
 	            MediaType.APPLICATION_FORM_URLENCODED_TYPE),
 	            String.class);
-	      System.out.println(callResult);	}
+	      return callResult;
+	     	}
 	
 	String valide(String userName, String password){
 	      Form form = new Form();
@@ -90,6 +88,17 @@ public class ClientService {
 	      form.param("password", password);
 	      String callResult = client
 	         .target(Validate_URL)
+	         .request(MediaType.APPLICATION_XML)
+	         .post(Entity.entity(form,
+	            MediaType.APPLICATION_FORM_URLENCODED_TYPE),
+	            String.class);
+	      return callResult;	}
+	
+	String valide(String password){
+	      Form form = new Form();
+	      form.param("password", password);
+	      String callResult = client
+	         .target(Validate_URL+ "API")
 	         .request(MediaType.APPLICATION_XML)
 	         .post(Entity.entity(form,
 	            MediaType.APPLICATION_FORM_URLENCODED_TYPE),
@@ -110,7 +119,7 @@ public class ClientService {
 	
 	// Uppdaterar en hyresgäst, samma uppbyggnad som POST men här körs http-metoden PUT.
 	
-	void updateTenant(String id, String apartmentnumber, String firstName, String lastName, String ss_number, String mobile, String email, String _from, String _until, String notes){
+	String updateTenant(String id, String apartmentnumber, String firstName, String lastName, String ss_number, String mobile, String email, String _from, String _until, String notes){
 	      Form form = new Form();
 	      form.param("id", id);
 	      form.param("apartmentnumber", apartmentnumber);
@@ -128,7 +137,7 @@ public class ClientService {
 	         .put(Entity.entity(form,
 	            MediaType.APPLICATION_FORM_URLENCODED_TYPE),
 	            String.class);
-	      
+	      return callResult;
 
 	      
 	   }

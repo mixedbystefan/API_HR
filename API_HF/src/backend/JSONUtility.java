@@ -16,8 +16,7 @@ public class JSONUtility {
 		
 		System.out.println("inne i jsonkonverter");
 		JSONObject obj_JSON = new JSONObject(s);
-		
-		//int id = obj_JSON.getInt("id");
+	
 		int apartmentNumber = obj_JSON.getInt("apartmentNumber");
 		String firstName = obj_JSON.getString("firstName");
 		String lastName = obj_JSON.getString("lastName");
@@ -36,11 +35,11 @@ public class JSONUtility {
 }
 
 	public static List<Tenant> getAllTenants(String s) {
-		System.out.println("detta är i JSONklassens topp");
+		
 		ArrayList<Tenant> list = new ArrayList<>();
 		Tenant tempTenant;
 		JSONArray results = new JSONArray(s);
-		System.out.println(results);
+		
 		
 		for (int i = 0; i < results.length(); i++) 
     	{
@@ -54,51 +53,23 @@ public class JSONUtility {
 			String mobile = tenant.getString("mobile");
 			String email = tenant.getString("email");
 			String _from = tenant.getString("_from");
-			System.out.println("json OBJEKTET" + tenant);
-			try {
-				_until = tenant.getString("_until");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				_until = "Nuvarande Hyresgäst";
-			}
+			try {_until = tenant.getString("_until");} 
+			catch (JSONException e) {_until = "Nuvarande Hyresgäst";}
 			String address = tenant.getString("address");
 			String postal_code = tenant.getString("postal_code");
 			String city = tenant.getString("city");
-			
-			
 			String notes = tenant.getString("notes");
 			
 			tempTenant = new Tenant(tenantID, apartmentNumber, firstName, lastName, ss_number, mobile, email, _from,_until, notes, address, postal_code, city);
 			
-			
 			list.add(tempTenant);
-			System.out.println("detta är i JSONklassen" + tempTenant);
+			
 			
     	}	
 		return list;
 		
 	}
-	/*public static void getByTitle(String s)
-	{
-		
-		JSONObject obj_JSON = new JSONObject(s);
-		JSONArray results = obj_JSON.getJSONArray("results"); // Ger längden på Arrrayen
-		String name ="";
-		
-		for (int i = 0; i < results.length(); i++) 
-    	{
-			JSONObject filmInstans = arrayName.getJSONObject(i);
-			
-			int id = filmInstans.getInt("id");
-			String original_title = filmInstans.getString("original_title");
-			String overview = filmInstans.getString("overview");
-			String release_date = filmInstans.getString("release_date");
-			double vote_average = filmInstans.getDouble("vote_average");
-			Film film = new Film(id, original_title, overview, release_date, vote_average, name);
-			list.add(film);
-			
-    	}	
-	}*/
+	
 	
 	
 
