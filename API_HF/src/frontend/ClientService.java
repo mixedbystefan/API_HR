@@ -1,12 +1,17 @@
-package apartmentservice;
+package frontend;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
 
 import org.json.JSONArray;
+
+import backend.JSONUtility;
+import backend.Tenant;
 public class ClientService {
 	private Client client;
 	private static String ADD_URL = "http://localhost:8080/API_HF/rest/ApartmentService/add";
@@ -14,7 +19,7 @@ public class ClientService {
 	private static String UPDATE_URL = "http://localhost:8080/API_HF/rest/ApartmentService/update";
 	private static String GET_TENANT_URL = "http://localhost:8080/API_HF/rest/ApartmentService/tenant/";
 	private static String GET_TENANTS_URL = "http://localhost:8080/API_HF/rest/ApartmentService/tenants";
-	
+	private static String Validate_URL = "http://localhost:8080/API_HF/rest/ApartmentService/validate";
 	
 	
 	public ClientService() { 
@@ -79,6 +84,18 @@ public class ClientService {
 	            String.class);
 	      System.out.println(callResult);	}
 	
+	String valide(String userName, String password){
+	      Form form = new Form();
+	      form.param("userName", userName);
+	      form.param("password", password);
+	      String callResult = client
+	         .target(Validate_URL)
+	         .request(MediaType.APPLICATION_XML)
+	         .post(Entity.entity(form,
+	            MediaType.APPLICATION_FORM_URLENCODED_TYPE),
+	            String.class);
+	      return callResult;	}
+	
 	// Tar bort ett Objekt-Klienten skickar med id som styr vilket objekt som ska raderas
 	public String deleteTenant(String tenantid) {
 		String callResult = client
@@ -87,6 +104,7 @@ public class ClientService {
 		         .resolveTemplate("tenantid", tenantid)
 		         .request(MediaType.APPLICATION_JSON)
 		         .delete(String.class);
+		System.out.println(callResult);
 		 return callResult;
 	}
 	

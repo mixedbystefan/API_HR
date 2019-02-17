@@ -1,4 +1,4 @@
-package apartmentservice;
+package backend;
 
 
 	import java.sql.*;
@@ -307,6 +307,37 @@ import java.util.List;
 				return 1;
 				
 		}
+		
+		public boolean validateAdmin(String _username, String _password)
+		{
+				
+				_password = PassCrypt.hashPassword(_password);
+				_username = PassCrypt.hashPassword(_username);
+				
+			
+			boolean status=false;  
+			
+			Connection conn = null; 
+			String query = "select * from _admin where _username =? and _password =?";
+			
+			
+			try {
+				conn = Connect.GetConnection();
+				PreparedStatement pst = conn.prepareStatement(query);
+				pst.setString(1, _username);
+				pst.setString(2, _password);
+				ResultSet rs = pst.executeQuery();
+
+				status = rs.next();
+				
+				
+
+				}
+			
+			catch(Exception e){System.out.println(e);}  
+			
+			return status;  
+			}
 
 		
 

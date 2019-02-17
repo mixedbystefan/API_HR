@@ -1,4 +1,4 @@
-package apartmentservice;
+package backend;
 
 // Lagrar lösenord för att slippa hårdkoda detta i programmet.
 

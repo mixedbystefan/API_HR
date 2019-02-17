@@ -1,4 +1,4 @@
-package apartmentservice;
+package backend;
 
 
 import java.sql.SQLException;
@@ -175,6 +175,26 @@ public class ApartmentService
     		return "<result>failure</result>";
 }
       return "<result>success</result>";
+   }
+   
+   @POST
+   @Path("/validate")
+   @Produces(MediaType.APPLICATION_XML)
+   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+   public String ValidateAdmin(
+		   @FormParam("userName") String userName,
+		   @FormParam("password") String password,
+   @Context HttpServletResponse servletResponse) throws SQLException
+   {
+	   
+	   
+	   boolean result = dBUtility.validateAdmin(userName, password);
+	   System.out.println("nurrååååååå" + result);
+	   if (result) {return "true";}
+	   else return "false";
+	   
+	   
+		  
    }
 
   

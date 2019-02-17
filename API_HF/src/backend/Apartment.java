@@ -1,4 +1,4 @@
-package apartmentservice;
+package backend;
 
 public class Apartment extends House
 {

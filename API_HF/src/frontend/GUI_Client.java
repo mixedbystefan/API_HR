@@ -1,10 +1,12 @@
-package apartmentservice;
+package frontend;
+
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
@@ -12,8 +14,11 @@ import org.json.JSONException;
 
 import com.sun.javafx.image.IntPixelGetter;
 import com.sun.jmx.snmp.SnmpUnknownSubSystemException;
+import com.sun.prism.Image;
 import com.sun.xml.internal.bind.v2.model.core.ID;
 
+import backend.Tenant;
+import javafx.scene.control.PasswordField;
 import jdk.internal.dynalink.beans.StaticClass;
 
 import javax.swing.JLabel;
@@ -29,6 +34,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Toolkit;
@@ -62,11 +68,21 @@ public class GUI_Client extends JFrame {
 	private JLabel lblUtflyttningsdatum;
 	private JLabel lblAnteckningar;
 	ClientService clientService = new ClientService();
-	private JButton btnHmtaHyresgstid;
-	private JButton btnTaBort;
-	private JButton btnRensa;
+	private static JButton btnHmtaHyresgstid;
+	private static JButton btnTaBort;
+	private static JButton btnNyHyresgst;
 	private JLabel lblId;
 	private final Action action = new SwingAction();
+	private static JTextField userName;
+	private static JPasswordField password;
+	private static JButton btnValidera;
+	private static JLabel lblAnvndare;
+	private static JLabel lblLsenord;
+	private static JLabel lblInloggad;
+	private static JButton btnSkrivUtHyresgster;
+	private static JButton Spara;
+	
+	ImageIcon BackgroundMain;
 	
 	
 	
@@ -92,7 +108,7 @@ public class GUI_Client extends JFrame {
 	 */
 	public GUI_Client() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 900);
+		setBounds(100, 100, 720, 900);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,8 +116,9 @@ public class GUI_Client extends JFrame {
 		contentPane.setLayout(null);
 		
 		textF_ID = new JTextField();
-		textF_ID.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		textF_ID.setBounds(340, 120, 25, 20);
+		textF_ID.setEnabled(false);
+		textF_ID.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
+		textF_ID.setBounds(340, 120, 27, 20);
 		contentPane.add(textF_ID);
 		textF_ID.setColumns(10);
 		
@@ -207,23 +224,47 @@ public class GUI_Client extends JFrame {
 		contentPane.add(lblAnteckningar);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(-44, -13, 351, 556);
+		textArea.setBounds(-71, 157, 351, 556);
 		contentPane.add(textArea);
 		
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setBounds(279, 230, 340, 540);
+		scrollPane.setBounds(279, 233, 340, 490);
 		 
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		lblInloggad = new JLabel("Inloggad");
+		lblInloggad.setVisible(false);
+		lblInloggad.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblInloggad.setForeground(Color.WHITE);
+		lblInloggad.setBounds(551, 113, 103, 30);
+		contentPane.add(lblInloggad);
 		
 		JLabel lblId_1 = new JLabel("ID");
 		lblId_1.setForeground(Color.WHITE);
 		lblId_1.setBounds(367, 121, 61, 16);
 		contentPane.add(lblId_1); 
 		contentPane.add(scrollPane);
+		btnValidera = new JButton("Validera");
+		btnValidera.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+				if(clientService.valide(userName.getText(), userName.getText()).equalsIgnoreCase("true")) {afterLoginState(); textArea.setText("");}
+				else textArea.setText("Fel Användarnamn eller lösenord!");
+				
+				
+			
+			
+				
+				
+			}
+		});
+		btnValidera.setBounds(566, 162, 117, 29);
+		contentPane.add(btnValidera);
 		
 		
-		
-		JButton btnNyHyresgst = new JButton("Ny Hyresgäst");
+		btnNyHyresgst = new JButton("Ny Hyresgäst");
+		btnNyHyresgst.setEnabled(false);
 		btnNyHyresgst.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -258,7 +299,31 @@ public class GUI_Client extends JFrame {
 		    }
 		});
 		
+		userName = new JTextField();
+		userName.setBounds(590, 110, 80, 17);
+		contentPane.add(userName);
+		userName.setColumns(10);
+		
+		password=new JPasswordField();
+		password.setBounds(590, 133, 80, 17);
+		contentPane.add(password);
+		password.setColumns(10);
+		
+		lblAnvndare = new JLabel("Användare");
+		lblAnvndare.setEnabled(true);
+		lblAnvndare.setForeground(Color.WHITE);
+		lblAnvndare.setBounds(514, 109, 74, 16);
+		contentPane.add(lblAnvndare);
+		
+		lblLsenord = new JLabel("Lösenord");
+		lblLsenord.setEnabled(true);
+		lblLsenord.setForeground(Color.WHITE);
+		lblLsenord.setBounds(517, 133, 61, 16);
+		contentPane.add(lblLsenord);
+		
+		
 		btnHmtaHyresgstid = new JButton("Hämta");
+		btnHmtaHyresgstid.setEnabled(false);
 		btnHmtaHyresgstid.setBounds(257, 116, 92, 29);
 		btnHmtaHyresgstid.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		
@@ -299,7 +364,7 @@ public class GUI_Client extends JFrame {
 					else {
 					for (Tenant ten : result) 
 					{
-						if (_id == ten.id) {textArea.append(ten + "\n" );
+						if (_id == ten.getId()) {textArea.append(ten + "\n" );
 						
 						
 					}}
@@ -320,7 +385,7 @@ public class GUI_Client extends JFrame {
 					
 					
 					else textArea.setText("Ett ID måste anges för att hämta data");
-					clearInput(); textFMode(false);
+					clearInput(); 
 					
 					
 				}
@@ -336,18 +401,19 @@ public class GUI_Client extends JFrame {
 		}); 
 		contentPane.add(btnHmtaHyresgstid);
 		
-		JButton btnUppdatera = new JButton("Spara");
-		btnUppdatera.setBounds(522, 118, 117, 26);
-		btnUppdatera.setForeground(Color.LIGHT_GRAY);
-		btnUppdatera.setFont(new Font("Lucida Grande", Font.PLAIN, 13)); 
+		Spara = new JButton("Spara");
+		Spara.setEnabled(false);
+		Spara.setBounds(41, 747, 160, 26);
+		Spara.setForeground(Color.BLACK);
+		Spara.setFont(new Font("Lucida Grande", Font.PLAIN, 13)); 
 		
-		btnUppdatera.addMouseListener(new java.awt.event.MouseAdapter() {
+		Spara.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	btnUppdatera.setForeground(Color.WHITE);
+		    	Spara.setForeground(Color.BLACK);
 		    }
 
 		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	btnUppdatera.setForeground(Color.LIGHT_GRAY);
+		    	Spara.setForeground(Color.DARK_GRAY);
 		    }
 		});
 		
@@ -363,7 +429,7 @@ public class GUI_Client extends JFrame {
 		    }
 		});
 		
-		btnUppdatera.addActionListener(new ActionListener() {
+		Spara.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				String id = textF_ID.getText();
@@ -378,8 +444,12 @@ public class GUI_Client extends JFrame {
 				String notes = textF_notes.getText();
 				System.out.println("nu är id =: " + id);
 				
-				if (textF_ID.getText().length()<1){clientService.addTenant(apartmentNumber, firstName, lastName, ss_number, mobile, email, _from, _until, notes);
-				clearInput(); textArea.setText("Ny Hyresgäst Sparad!");}
+				if (textF_ID.getText().length()<1)
+					{
+						
+						clientService.addTenant(apartmentNumber, firstName, lastName, ss_number, mobile, email, _from, _until, notes);
+						clearInput(); textArea.setText("Ny Hyresgäst Sparad!");
+					}
 				else clientService.updateTenant(id, apartmentNumber, firstName, lastName, ss_number, mobile, email, _from, _until, notes);
 				textFMode(false);
 				
@@ -389,12 +459,13 @@ public class GUI_Client extends JFrame {
 				
 			}
 		});
-		btnUppdatera.setOpaque(false);
+		/*btnUppdatera.setOpaque(false);
 		btnUppdatera.setContentAreaFilled(false);
-		btnUppdatera.setBorderPainted(false);
-		contentPane.add(btnUppdatera);
+		btnUppdatera.setBorderPainted(false);*/
+		contentPane.add(Spara);
 		
 		btnTaBort = new JButton("Ta Bort");
+		btnTaBort.setEnabled(false);
 		btnTaBort.setBounds(377, 118, 105, 26);
 		btnTaBort.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
 		btnTaBort.setForeground(Color.LIGHT_GRAY);
@@ -420,7 +491,7 @@ public class GUI_Client extends JFrame {
 				
 					} 
 					
-					catch (Exception e1) {textArea.setText("Det finns ingen hyresgäst med ID " + id);}
+					catch (Exception e1) {textArea.setText("Det finns ingen hyresgäst med ID " + id); textF_ID.setText("");}
 					
 					
 				}
@@ -449,14 +520,15 @@ public class GUI_Client extends JFrame {
 		    }
 		});
 		
-		JButton btnSkrivUtHyresgster = new JButton("Skriv ut hyresgäster");
-		btnSkrivUtHyresgster.setBounds(453, 792, 172, 29);
+		btnSkrivUtHyresgster = new JButton("Skriv ut hyresgäster");
+		btnSkrivUtHyresgster.setBounds(457, 747, 172, 29);
+		btnSkrivUtHyresgster.setEnabled(false);
 		btnSkrivUtHyresgster.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
 				textArea.setText("");
-				ArrayList<Tenant> result = (ArrayList<Tenant>) clientService.getAllTenants();
+				List<Tenant> result = clientService.getAllTenants();
 				System.out.println("Skrivs ut i GUI" + result);
 				if (result.size()<1) {textArea.setText("Sökningen gav inga resultat");}
 				
@@ -474,21 +546,24 @@ public class GUI_Client extends JFrame {
 			}});
 		contentPane.add(btnSkrivUtHyresgster);
 		
-		btnRensa = new JButton("Rensa");
-		btnRensa.setBounds(47, 740, 117, 29);
-		btnRensa.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clearInput();
-				textF_ID.setText("");
-			}
-		});
-		contentPane.add(btnRensa);
+		
 		
 		JLabel BackgroundImage = new JLabel("New label");
+		BackgroundMain = new ImageIcon("img/Backgroundpic.jpg","BackgroundMain" );
 		BackgroundImage.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-		BackgroundImage.setBounds(-25, -1, 725, 853);
-		BackgroundImage.setIcon(new ImageIcon("/Users/mixedbystefan/Desktop/BakgrundAPI_new6.jpg"));
+		BackgroundImage.setBounds(-25, -1, 760, 853);
+		BackgroundImage.setIcon(BackgroundMain);
+		
 		contentPane.add(BackgroundImage);
+		
+		
+		
+		
+		
+		
+		
+		
+	
 		
 		
 		
@@ -525,6 +600,25 @@ public class GUI_Client extends JFrame {
 		textF_in_date.setEnabled(mode);
 		textF_outDate.setEnabled(mode);
 		textF_notes.setEnabled(mode);
+	}
+	
+	private static void afterLoginState() {
+		userName.setVisible(false);
+		password.setVisible(false);
+		lblAnvndare.setVisible(false);
+		lblLsenord.setVisible(false);
+		btnTaBort.setEnabled(true);
+		btnNyHyresgst.setEnabled(true);
+		btnValidera.setEnabled(false);
+		btnValidera.setVisible(false);
+		btnHmtaHyresgstid.setEnabled(true);
+		lblInloggad.setVisible(true);
+		btnSkrivUtHyresgster.setEnabled(true);
+		Spara.setEnabled(true);
+		textF_ID.setEnabled(true);
+		
+	
+		
 	}
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
